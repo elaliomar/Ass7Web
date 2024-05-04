@@ -1,9 +1,41 @@
 import { configureStore } from "@reduxjs/toolkit";
-import auth from "./slices/authSlice";
-export const store = configureStore({
-  reducer: {
-    auth,
-  },
+import { combineReducers } from "redux";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import authReducer from "./slices/authSlice";
+import storage from "redux-persist/lib/storage";
+import { setupInterceptors } from "../utils/services/axiosInterceptore";
+
+const rootReducer = combineReducers({
+  auth: authReducer,
 });
 
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+setupInterceptors(store);
+
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;

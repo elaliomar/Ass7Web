@@ -1,19 +1,20 @@
-import "./styles.css";
-import CustomInput from "../atoms/CustomInput";
+// import "./styles.css";
+import CustomInput from "../molecules/CustomInput";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../atoms/CustomButton";
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { UserCredentials } from "../../types/userCredientials";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { logIn } from "../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import handleApiResponseError from "../../utils/authErrorHandle";
+import axios, { AxiosError } from "axios";
+import { useState } from "react";
+import { setAccessToken, setRefreshToken } from "../../redux/slices/authSlice";
 
 const LogIn = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -24,45 +25,6 @@ const LogIn = () => {
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   });
-  // const handleFormSubmit = async (
-  //   values: UserCredentials,
-  //   formikHelpers: FormikHelpers<{
-  //     email: string;
-  //     password: string;
-  //   }>
-  // ) => {
-  //   const userData = {
-  //     email: values.email,
-  //     password: values.password,
-  //   };
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await axios.post(
-  //       "https://backend-practice.euriskomobility.me/login",
-  //       userData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       // dispatch(setAccessToken(response.data.accessToken));
-  //       // dispatch(setRefreshToken(response.data.refreshToken));
-  //       // localStorage.setItem("user", JSON.stringify(response.data));
-  //       // navigate("/");
-  //       // window.location.reload();
-  //       // dispatch(setAccessToken(response.data.accessToken));
-  //       // dispatch(setRefreshToken(response.data.refreshToken));
-  //     }
-  //   } catch (error) {
-  //     handleApiResponseError(error as AxiosError, "login");
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //     formikHelpers.resetForm();
-  //   }
-  // };
   const handleFormSubmit = async (
     values: UserCredentials,
     formikHelpers: FormikHelpers<{
@@ -73,13 +35,53 @@ const LogIn = () => {
     const userData = {
       email: values.email,
       password: values.password,
-      token_expires_in: "30m",
     };
-    dispatch(logIn(userData)).then(() => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "https://backend-practice.euriskomobility.me/login",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        dispatch(setAccessToken(response.data.accessToken));
+        dispatch(setRefreshToken(response.data.refreshToken));
+        // localStorage.setItem("user", JSON.stringify(response.data));
+        navigate("/news");
+        // window.location.reload();
+        // dispatch(setAccessToken(response.data.accessToken));
+        // dispatch(setRefreshToken(response.data.refreshToken));
+      }
+    } catch (error) {
+      handleApiResponseError(error as AxiosError, "login");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
       formikHelpers.resetForm();
-      navigate("/");
-    });
+    }
   };
+  // const handleFormSubmit = async (
+  //   values: UserCredentials,
+  //   formikHelpers: FormikHelpers<{
+  //     email: string;
+  //     password: string;
+  //   }>
+  // ) => {
+  //   const userData = {
+  //     email: values.email,
+  //     password: values.password,
+  //     token_expires_in: "30m",
+  //   };
+  //   dispatch(logIn(userData)).then(() => {
+  //     formikHelpers.resetForm();
+  //     navigate("/");
+  //   });
+  // };
+
   return (
     <div className="wrapper">
       <div className="container main">
