@@ -1,4 +1,3 @@
-import Home from "./components/Pages/News";
 import LogIn from "./components/Pages/LogIn";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./components/Pages/SignUp";
@@ -9,6 +8,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFound from "./components/molecules/NotFound";
 import Layout from "./components/Layout/Layout";
 import Details from "./components/Pages/Details";
+import News from "./components/Pages/News";
 function App() {
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("accessToken");
@@ -26,7 +26,7 @@ function App() {
               path="/"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <News />
                 </ProtectedRoute>
               }
             />

@@ -3,7 +3,7 @@ import { NewsData } from "../../types/newsTypes";
 import { api } from "../../utils/services/axiosInterceptore";
 import NewsGrid from "../organisms/NewsGrid";
 
-const Home = () => {
+const News = () => {
   const [serverData, setServerData] = useState<NewsData[] | null>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -61,4 +61,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default News;
