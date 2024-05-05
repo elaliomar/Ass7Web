@@ -1,4 +1,4 @@
-// import "./styles.css";
+import "../../styles/auth.css";
 import CustomInput from "../molecules/CustomInput";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../atoms/CustomButton";
@@ -50,11 +50,7 @@ const LogIn = () => {
       if (response.status === 200) {
         dispatch(setAccessToken(response.data.accessToken));
         dispatch(setRefreshToken(response.data.refreshToken));
-        // localStorage.setItem("user", JSON.stringify(response.data));
-        navigate("/news");
-        // window.location.reload();
-        // dispatch(setAccessToken(response.data.accessToken));
-        // dispatch(setRefreshToken(response.data.refreshToken));
+        navigate("/");
       }
     } catch (error) {
       handleApiResponseError(error as AxiosError, "login");
@@ -64,38 +60,22 @@ const LogIn = () => {
       formikHelpers.resetForm();
     }
   };
-  // const handleFormSubmit = async (
-  //   values: UserCredentials,
-  //   formikHelpers: FormikHelpers<{
-  //     email: string;
-  //     password: string;
-  //   }>
-  // ) => {
-  //   const userData = {
-  //     email: values.email,
-  //     password: values.password,
-  //     token_expires_in: "30m",
-  //   };
-  //   dispatch(logIn(userData)).then(() => {
-  //     formikHelpers.resetForm();
-  //     navigate("/");
-  //   });
-  // };
-
   return (
-    <div className="wrapper">
-      <div className="container main">
-        <div className="row">
-          <div className="col-md-6 side-image">
-            <div className="text">
-              <p>
-                News<i>24</i>
-              </p>
-            </div>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="row border rounded-5 p-3 bg-white shadow box-area">
+        <div className="col-md-6 left-box rounded-4 d-flex justify-content-center align-items-center flex-column bg-primary">
+          <div className="featured-image mb-3">
+            <img
+              src="src/assets/news.jpg"
+              className="img-fluid rounded"
+              style={{ width: "250px", objectFit: "contain" }}
+            />
           </div>
-          <div className="col-md-6 right">
-            <div className="input-box">
-              <header>Enter your account</header>
+        </div>
+        <div className="col-md-6 right-box">
+          <div className="row align-items-center">
+            <div className="header-text mb-4">
+              <h5 className="text-center">Happy to have you back</h5>
               <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={validationSchema}
@@ -123,7 +103,7 @@ const LogIn = () => {
                     {errors.password && (
                       <p className="text-danger">{errors.password}</p>
                     )}
-                    <div className="input-field">
+                    <div className="text-center">
                       {isLoading ? (
                         <div
                           className="spinner-border text-primary"
@@ -132,13 +112,15 @@ const LogIn = () => {
                           <span className="visually-hidden">Loading...</span>
                         </div>
                       ) : (
-                        <CustomButton title="LogIn" onClick={handleSubmit} />
+                        <div className="text-center">
+                          <CustomButton title="LogIn" onClick={handleSubmit} />
+                        </div>
                       )}
                     </div>
                   </>
                 )}
               </Formik>
-              <div className="signin">
+              <div className="signin mt-2 d-flex flex-row justify-content-center">
                 <span>
                   Don't have an account? <Link to="/signup">Sign Up here</Link>
                 </span>

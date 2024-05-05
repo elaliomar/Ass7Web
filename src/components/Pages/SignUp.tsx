@@ -1,3 +1,4 @@
+import "../../styles/auth.css";
 import { useState } from "react";
 import CustomInput from "../molecules/CustomInput";
 import { Link } from "react-router-dom";
@@ -57,37 +58,22 @@ const SignUp = () => {
       formikHelpers.resetForm();
     }
   };
-  // const handleFormSubmit = async (
-  //   values: UserCredentials,
-  //   formikHelpers: FormikHelpers<{
-  //     email: string;
-  //     password: string;
-  //   }>
-  // ) => {
-  //   const userData = {
-  //     email: values.email,
-  //     password: values.password,
-  //     token_expires_in: "30m",
-  //   };
-  //   dispatch(signUp(userData)).then(() => {
-  //     formikHelpers.resetForm();
-  //     navigate("/login");
-  //   });
-  // };
   return (
-    <div className="wrapper">
-      <div className="container main">
-        <div className="row">
-          <div className="col-md-6 side-image">
-            <div className="text">
-              <p>
-                News<i>24</i>
-              </p>
-            </div>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="row border rounded-5 p-3 bg-white shadow box-area">
+        <div className="col-md-6 left-box rounded-4 d-flex justify-content-center align-items-center flex-column bg-primary">
+          <div className="featured-image mb-3">
+            <img
+              src="src/assets/news.jpg"
+              className="img-fluid rounded"
+              style={{ width: "250px", objectFit: "contain" }}
+            />
           </div>
-          <div className="col-md-6 right">
-            <div className="input-box">
-              <header>Create account</header>
+        </div>
+        <div className="col-md-6 right-box">
+          <div className="row align-items-center">
+            <div className="header-text mb-4">
+              <h5 className="text-center">Create your account</h5>
               <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={validationSchema}
@@ -115,7 +101,7 @@ const SignUp = () => {
                     {errors.password && (
                       <p className="text-danger">{errors.password}</p>
                     )}
-                    <div className="input-field">
+                    <div className="text-center">
                       {isLoading ? (
                         <div
                           className="spinner-border text-primary"
@@ -124,15 +110,17 @@ const SignUp = () => {
                           <span className="visually-hidden">Loading...</span>
                         </div>
                       ) : (
-                        <CustomButton title="SignUp" onClick={handleSubmit} />
+                        <div className="text-center">
+                          <CustomButton title="SignUp" onClick={handleSubmit} />
+                        </div>
                       )}
                     </div>
                   </>
                 )}
               </Formik>
-              <div className="signin">
+              <div className="signin mt-2 d-flex flex-row justify-content-center">
                 <span>
-                  Already have an account? <Link to="/login">Log in here</Link>
+                  Already have an account? <Link to="/login">Log In here</Link>
                 </span>
               </div>
             </div>

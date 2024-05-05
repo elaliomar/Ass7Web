@@ -20,16 +20,6 @@ const authSlice = createSlice({
     setRefreshToken(state, action: PayloadAction<string>) {
       state.refreshToken = action.payload;
     },
-    // setTokens(
-    //   state,
-    //   action: PayloadAction<{authToken: string; refreshToken: string}>,
-    // ) {
-    //   state.authToken = action.payload.authToken;
-    //   state.refreshToken = action.payload.refreshToken;
-    // },
-    // clearAuthToken(state) {
-    //   state.authToken = null;
-    // },
     clearTokens(state) {
       state.accessToken = null;
       state.refreshToken = null;

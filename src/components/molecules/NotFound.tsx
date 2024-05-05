@@ -8,7 +8,7 @@ const NotFound = () => {
         The page you are looking for might have been removed, had its name
         changed, or is temporarily unavailable.
       </p>
-      <Link to="/news">Go to News Page</Link>
+      <Link to="/">Go to News Page</Link>
     </div>
   );
 };

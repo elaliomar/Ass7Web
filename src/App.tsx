@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route
-              path="/news"
+              path="/"
               element={
                 <ProtectedRoute>
                   <Home />
