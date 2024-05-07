@@ -15,7 +15,6 @@ const Details = () => {
 
   const fetchPosts = async () => {
     await api.get(`/posts?pageSize=${110}`).then((res) => {
-      console.log("length", res.data.results.length);
       setServerData(res.data.results);
     });
   };

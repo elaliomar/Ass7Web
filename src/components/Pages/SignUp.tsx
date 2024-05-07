@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { UserCredentials } from "../../types/userCredientials";
 import handleApiResponseError from "../../utils/authErrorHandle";
 import axios, { AxiosError } from "axios";
+import { apiURL } from "../../utils/apiURL";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,15 +38,11 @@ const SignUp = () => {
     };
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://backend-practice.euriskomobility.me/signup",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${apiURL}/signup`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (response.status === 201) {
         alert("User created successfully!");
         navigate("/login");

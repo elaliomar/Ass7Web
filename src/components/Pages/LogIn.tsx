@@ -10,6 +10,7 @@ import handleApiResponseError from "../../utils/authErrorHandle";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { setAccessToken, setRefreshToken } from "../../redux/slices/authSlice";
+import { apiURL } from "../../utils/apiURL";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -38,15 +39,11 @@ const LogIn = () => {
     };
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://backend-practice.euriskomobility.me/login",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${apiURL}/login`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (response.status === 200) {
         dispatch(setAccessToken(response.data.accessToken));
         dispatch(setRefreshToken(response.data.refreshToken));
@@ -60,6 +57,7 @@ const LogIn = () => {
       formikHelpers.resetForm();
     }
   };
+
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="row border rounded-5 p-3 bg-white shadow box-area">

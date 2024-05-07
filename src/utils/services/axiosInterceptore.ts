@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { clearTokens,setAccessToken } from '../../redux/slices/authSlice';
+import { apiURL } from '../apiURL';
 
 const api = axios.create({
-  baseURL: 'https://backend-practice.euriskomobility.me',
+  baseURL: apiURL,
 });
 
 // Add the interceptors
@@ -42,7 +43,7 @@ const setupInterceptors = (store: any) => {
 
         try {
           const response = await axios.post(
-            'https://backend-practice.euriskomobility.me/refresh-token',
+            `${apiURL}/refresh-token`,
             {
               refreshToken: refreshToken,
             },

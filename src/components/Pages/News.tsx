@@ -15,7 +15,6 @@ const News = () => {
       await api
         .get(`/posts?page=${page}`)
         .then((response) => {
-          console.log("length", response.data.results.length);
           setTotalPage(response.data.pagination.totalPages);
           if (response.data.results.length > 0) {
             setServerData((prevData) => [
